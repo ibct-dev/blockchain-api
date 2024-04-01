@@ -5,6 +5,6 @@ export declare class BlockchainControllerPing {
 export declare class BlockchainController {
     private readonly _blockchainService;
     constructor(_blockchainService: IBlockchainService);
-    registerTraninfoTrx(body: any): Promise<any>;
-    selectTraninfoTrx(body: any): Promise<any>;
+    registerBnoInfoTrx(body: any): Promise<any>;
+    selectBnoInfoTrx(body: any): Promise<any>;
 }

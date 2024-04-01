@@ -1,14 +1,12 @@
 export interface IBlockchainService {
-    registerTraninfoTrx(vin: string, did: string, traninfo: string): Promise<any>;
-    selectTraninfoTrx(vin: string): Promise<any>;
+    registerBnoInfoTrx(bnoinfo: JSON): Promise<any>;
+    selectBnoInfoTrx(bno: string): Promise<any>;
 }
 
-export interface IRegisterTraninfoActionInput {
-    vin: string; 
-    did: string;
-    traninfo: string;
+export interface IRegisterBnoInfoActionInput {
+    bnoinfo: JSON;
 }
 
-export interface ISelectTraninfoActionInput {
-    vin: string; 
+export interface ISelectBnoInfoActionInput {
+    bno: string; 
 }

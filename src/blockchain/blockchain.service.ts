@@ -14,8 +14,8 @@ import {
 
 import {
     IBlockchainService,
-    IRegisterTraninfoActionInput,
-    ISelectTraninfoActionInput
+    IRegisterBnoInfoActionInput,
+    ISelectBnoInfoActionInput
 } from "./blockchain.interface";
 
 import { ErrorHandlerService } from "@shared/modules/error-handler/error-handler.service";
@@ -67,28 +67,37 @@ export class BlockchainService implements IBlockchainService {
         return `Hello World at ${getTime()}`;
     }
 
-    async registerTraninfoTrx(vin: string, did: string, traninfo: string): Promise<any> {
+    async registerBnoInfoTrx(bnoinfo: JSON): Promise<any> {
         const inputParams = {
-            vin: vin,
-            did: did,
-            traninfo: traninfo
+            bnoinfo: bnoinfo
         }
 
         try {
-            return await this.registerTraninfoTrxFunc(inputParams);
+            const bno = JSON.parse(JSON.stringify(bnoinfo)).bno;
+            const chk = await this.selectBnoInfoTrx(bno);
+            if(JSON.stringify(chk).indexOf("FAIL") == -1) {
+                throw new Error("Data already exists in table");    
+            }
+        } catch(error) {
+            console.log("SaaS selectTraninfoTrx error : ", error);
+            throw new Error(error);
+        }
+
+        try {
+            return await this.registerBnoInfoTrxFunc(inputParams);
         } catch(error) {
             console.log("SaaS registerTraninfoTrx error : ", error);
             throw new Error(error);
         }
     }
 
-    async selectTraninfoTrx(vin: string): Promise<any> {
+    async selectBnoInfoTrx(bno: string): Promise<any> {
         const inputParams = {
-            vin: vin
+            bno: bno
         }
 
         try {
-            return await this.selectTraninfoTrxFunc(inputParams);
+            return await this.selectBnoInfoTrxFunc(inputParams);
         } catch(error) {
             console.log("SaaS selectTraninfoTrx error : ", error);
             throw new Error(error);
@@ -102,9 +111,9 @@ export class BlockchainService implements IBlockchainService {
         return crypto.createHash('sha256').update(input).digest('hex');
     }
 
-    async registerTraninfoTrxFunc (arg: IRegisterTraninfoActionInput): Promise<any> {
+    async registerBnoInfoTrxFunc (arg: IRegisterBnoInfoActionInput): Promise<any> {
         try {
-            const { vin, did, traninfo } = arg;
+            const { bnoinfo } = arg;
 
             const code = config.led_lit_code;
             // const privtKey = config.led_priv;
@@ -112,7 +121,8 @@ export class BlockchainService implements IBlockchainService {
 
             console.log("accountId : ", accountId);
             console.log("code : ", code);
-            console.log("vin : ", vin);
+            const bno = JSON.parse(JSON.stringify(bnoinfo)).bno;
+            console.log("bno : ", bno);
             // const eos = new BlockchainService();
 
             this.didapi.signatureProvider = new JsSignatureProvider(
@@ -126,7 +136,7 @@ export class BlockchainService implements IBlockchainService {
                     actions: [
                         {
                             account: code,
-                            name: "regtraninfo",
+                            name: "regbnoinfo",
                             authorization: [
                                 {
                                     actor: code,
@@ -135,9 +145,8 @@ export class BlockchainService implements IBlockchainService {
                             ],
                             data: {
                                 accountId,
-                                vin,
-                                did, 
-                                traninfo
+                                bno,
+                                bnoinfo: JSON.stringify(bnoinfo)
                             },
                         },
                     ],
@@ -147,16 +156,18 @@ export class BlockchainService implements IBlockchainService {
                     expireSeconds: 30,
                 }
             );
-            const result = trx['processed'].action_traces[0].console;
+            const result = {
+                objecId : trx['processed'].id //.action_traces[0].console;
+            }
             return result;
         } catch (error) {
             throw new TransactionExecuteException(error);
         }
     }
 
-    async selectTraninfoTrxFunc(arg: ISelectTraninfoActionInput): Promise<any> {
+    async selectBnoInfoTrxFunc(arg: ISelectBnoInfoActionInput): Promise<any> {
         try {
-            const { vin } = arg;
+            const { bno } = arg;
    
             const code = config.led_lit_code;
             // const privtKey = config.led_priv;
@@ -167,15 +178,15 @@ export class BlockchainService implements IBlockchainService {
                 (config.led_priv as string).split(" ")
             );
 
-            console.log("selectDidPinTrx start :::::: ", vin);
-            console.log("selectDidPinTrx accountId :::::: ", accountId);
+            console.log("selectBnoInfoTrx start :::::: ", bno);
+            console.log("selectBnoInfoTrx accountId :::::: ", accountId);
 
             const trx = await this.didapi.transact(
                 {
                     actions: [
                         {
                             account: code,
-                            name: "seltraninfo",
+                            name: "selbnoinfo",
                             authorization: [
                                 {
                                     actor: code,
@@ -184,7 +195,7 @@ export class BlockchainService implements IBlockchainService {
                             ],
                             data: {
                                 accountId,
-                                vin
+                                bno
                             },
                         },
                     ],
@@ -195,13 +206,18 @@ export class BlockchainService implements IBlockchainService {
                 }
             );
 
-            console.log("selectTraninfoTrx result trx : ", trx);
-            console.log("selectTraninfoTrx result trx['processed'].action_traces : ", trx['processed'].action_traces);
+            console.log("selectBnoInfoTrx result trx : ", trx);
+            console.log("selectBnoInfoTrx result trx['processed'].action_traces : ", trx['processed'].action_traces);
 
             const result = trx['processed'].action_traces[0].console;
-            return result;
+
+            try {
+                return JSON.parse(result);
+            } catch(error) {
+                return result;
+            }
         } catch (error) {
-            console.log("selectTraninfoTrx error : ", error.message);
+            console.log("selectBnoInfoTrx error : ", error.message);
             throw new TransactionExecuteException(error);
         }
     }

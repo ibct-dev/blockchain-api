@@ -18,6 +18,7 @@ async function bootstrap() {
         app.useGlobalPipes(new common_1.ValidationPipe());
         app.use(cls_rtracer_1.default.expressMiddleware());
         app.use((0, helmet_1.default)());
+        app.enableCors();
         app.use((0, express_rate_limit_1.default)({
             windowMs: 1000 * 60 * 60,
             max: _config_1.config.rateLimitMax,

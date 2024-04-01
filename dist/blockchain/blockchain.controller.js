@@ -34,43 +34,43 @@ let BlockchainController = class BlockchainController {
     constructor(_blockchainService) {
         this._blockchainService = _blockchainService;
     }
-    async registerTraninfoTrx(body) {
+    async registerBnoInfoTrx(body) {
         try {
-            const rslt = await this._blockchainService.registerTraninfoTrx(body.vin, body.did, body.traninfo);
+            const rslt = await this._blockchainService.registerBnoInfoTrx(body.bnoinfo);
             return rslt;
         }
         catch (error) {
             throw new http_error_1.BadRequestException(error.message, {
-                context: "BlockchainController/registerTraninfoTrx"
+                context: "BlockchainController/registerBnoInfoTrx"
             });
         }
     }
-    async selectTraninfoTrx(body) {
+    async selectBnoInfoTrx(body) {
         try {
-            const rslt = await this._blockchainService.selectTraninfoTrx(body.vin);
+            const rslt = await this._blockchainService.selectBnoInfoTrx(body.bno);
             return rslt;
         }
         catch (error) {
             throw new http_error_1.BadRequestException(error.message, {
-                context: "BlockchainController/selectTraninfoTrx"
+                context: "BlockchainController/selectBnoInfoTrx"
             });
         }
     }
 };
 __decorate([
-    (0, common_1.Post)("registerTraninfoTrx"),
+    (0, common_1.Post)("registerBnoInfoTrx"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], BlockchainController.prototype, "registerTraninfoTrx", null);
+], BlockchainController.prototype, "registerBnoInfoTrx", null);
 __decorate([
-    (0, common_1.Post)("selectTraninfoTrx"),
+    (0, common_1.Post)("selectBnoInfoTrx"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], BlockchainController.prototype, "selectTraninfoTrx", null);
+], BlockchainController.prototype, "selectBnoInfoTrx", null);
 BlockchainController = __decorate([
     (0, common_1.Controller)("SaaS"),
     __param(0, (0, common_1.Inject)("BlockchainService")),
