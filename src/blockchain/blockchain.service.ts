@@ -395,7 +395,8 @@ export class BlockchainService implements IBlockchainService {
                                 model: arg.model,
                                 year: arg.year,
                                 brand: arg.brand,
-                                frame: arg.frame
+                                frame: arg.frame,
+                                bid: arg.bid
                             },
                         },
                     ],
