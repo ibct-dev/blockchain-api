@@ -73,8 +73,16 @@ let BlockchainService = class BlockchainService {
             bnoinfo: bnoinfo
         };
         try {
-            const bno = JSON.parse(JSON.stringify(bnoinfo)).bno;
-            const chk = await this.selectBnoInfoTrx(bno);
+            const bno = bnoinfo.bno;
+            const selectParams = {
+                bno: bno,
+                title: "",
+                model: "",
+                year: "",
+                brand: "",
+                frame: ""
+            };
+            const chk = await this.selectBnoInfoTrx(selectParams);
             if (JSON.stringify(chk).indexOf("FAIL") == -1) {
                 throw new Error("Data already exists in table");
             }
@@ -84,19 +92,78 @@ let BlockchainService = class BlockchainService {
             throw new Error(error);
         }
         try {
-            return await this.registerBnoInfoTrxFunc(inputParams);
+            return await this.registerBnoInfoTrxFunc(bnoinfo);
         }
         catch (error) {
             console.log("SaaS registerTraninfoTrx error : ", error);
             throw new Error(error);
         }
     }
-    async selectBnoInfoTrx(bno) {
+    async updateBnoInfoTrx(bnoinfo) {
         const inputParams = {
-            bno: bno
+            bnoinfo: bnoinfo
         };
         try {
-            return await this.selectBnoInfoTrxFunc(inputParams);
+            const bno = bnoinfo.bno;
+            const selectParams = {
+                bno: bno,
+                title: "",
+                model: "",
+                year: "",
+                brand: "",
+                frame: ""
+            };
+            const chk = await this.selectBnoInfoTrx(selectParams);
+            if (JSON.stringify(chk).indexOf("FAIL") != -1) {
+                throw new Error("Data is not found.");
+            }
+        }
+        catch (error) {
+            console.log("SaaS selectTraninfoTrx error : ", error);
+            throw new Error(error);
+        }
+        try {
+            return await this.updateBnoInfoTrxFunc(bnoinfo);
+        }
+        catch (error) {
+            console.log("SaaS updateBnoInfoTrx error : ", error);
+            throw new Error(error);
+        }
+    }
+    async deleteBnoInfoTrx(bnoinfo) {
+        const inputParams = {
+            bnoinfo: bnoinfo
+        };
+        try {
+            const bno = bnoinfo.bno;
+            const selectParams = {
+                bno: bno,
+                title: "",
+                model: "",
+                year: "",
+                brand: "",
+                frame: ""
+            };
+            const chk = await this.selectBnoInfoTrx(selectParams);
+            if (JSON.stringify(chk).indexOf("FAIL") != -1) {
+                throw new Error("Data is not found.");
+            }
+        }
+        catch (error) {
+            console.log("SaaS selectTraninfoTrx error : ", error);
+            throw new Error(error);
+        }
+        try {
+            return await this.deleteBnoInfoTrxFunc(bnoinfo);
+        }
+        catch (error) {
+            console.log("SaaS deleteBnoInfoTrx error : ", error);
+            throw new Error(error);
+        }
+    }
+    async selectBnoInfoTrx(bnoinfo) {
+        try {
+            return await this.selectBnoInfoTrxFunc(bnoinfo);
         }
         catch (error) {
             console.log("SaaS selectTraninfoTrx error : ", error);
@@ -108,13 +175,10 @@ let BlockchainService = class BlockchainService {
     }
     async registerBnoInfoTrxFunc(arg) {
         try {
-            const { bnoinfo } = arg;
             const code = _config_1.config.led_lit_code;
             const accountId = _config_1.config.led_lit_code;
             console.log("accountId : ", accountId);
             console.log("code : ", code);
-            const bno = JSON.parse(JSON.stringify(bnoinfo)).bno;
-            console.log("bno : ", bno);
             this.didapi.signatureProvider = new eosjs_jssig_1.JsSignatureProvider(_config_1.config.led_priv.split(" "));
             const trx = await this.didapi.transact({
                 actions: [
@@ -129,8 +193,93 @@ let BlockchainService = class BlockchainService {
                         ],
                         data: {
                             accountId,
-                            bno,
-                            bnoinfo: JSON.stringify(bnoinfo)
+                            bno: arg.bno,
+                            title: arg.title,
+                            model: arg.model,
+                            year: arg.year,
+                            brand: arg.brand,
+                            frame: arg.frame,
+                            photos: arg.photos
+                        },
+                    },
+                ],
+            }, {
+                blocksBehind: 3,
+                expireSeconds: 30,
+            });
+            const result = {
+                objecId: trx['processed'].id
+            };
+            return result;
+        }
+        catch (error) {
+            throw new http_error_1.TransactionExecuteException(error);
+        }
+    }
+    async updateBnoInfoTrxFunc(arg) {
+        try {
+            const code = _config_1.config.led_lit_code;
+            const accountId = _config_1.config.led_lit_code;
+            console.log("accountId : ", accountId);
+            console.log("code : ", code);
+            this.didapi.signatureProvider = new eosjs_jssig_1.JsSignatureProvider(_config_1.config.led_priv.split(" "));
+            const trx = await this.didapi.transact({
+                actions: [
+                    {
+                        account: code,
+                        name: "udtbnoinfo",
+                        authorization: [
+                            {
+                                actor: code,
+                                permission: "active",
+                            },
+                        ],
+                        data: {
+                            accountId,
+                            bno: arg.bno,
+                            title: arg.title,
+                            model: arg.model,
+                            year: arg.year,
+                            brand: arg.brand,
+                            frame: arg.frame,
+                            photos: arg.photos
+                        },
+                    },
+                ],
+            }, {
+                blocksBehind: 3,
+                expireSeconds: 30,
+            });
+            const result = {
+                objecId: trx['processed'].id
+            };
+            return result;
+        }
+        catch (error) {
+            throw new http_error_1.TransactionExecuteException(error);
+        }
+    }
+    async deleteBnoInfoTrxFunc(arg) {
+        try {
+            const code = _config_1.config.led_lit_code;
+            const accountId = _config_1.config.led_lit_code;
+            console.log("accountId : ", accountId);
+            console.log("code : ", code);
+            this.didapi.signatureProvider = new eosjs_jssig_1.JsSignatureProvider(_config_1.config.led_priv.split(" "));
+            const trx = await this.didapi.transact({
+                actions: [
+                    {
+                        account: code,
+                        name: "delbnoinfo",
+                        authorization: [
+                            {
+                                actor: code,
+                                permission: "active",
+                            },
+                        ],
+                        data: {
+                            accountId,
+                            bno: arg.bno
                         },
                     },
                 ],
@@ -149,12 +298,10 @@ let BlockchainService = class BlockchainService {
     }
     async selectBnoInfoTrxFunc(arg) {
         try {
-            const { bno } = arg;
             const code = _config_1.config.led_lit_code;
             const accountId = _config_1.config.led_lit_code;
             this.didapi.signatureProvider = new eosjs_jssig_1.JsSignatureProvider(_config_1.config.led_priv.split(" "));
-            console.log("selectBnoInfoTrx start :::::: ", bno);
-            console.log("selectBnoInfoTrx accountId :::::: ", accountId);
+            console.log("selectBnoInfoTrx arg :::::: ", arg);
             const trx = await this.didapi.transact({
                 actions: [
                     {
@@ -168,7 +315,12 @@ let BlockchainService = class BlockchainService {
                         ],
                         data: {
                             accountId,
-                            bno
+                            bno: arg.bno,
+                            title: arg.title,
+                            model: arg.model,
+                            year: arg.year,
+                            brand: arg.brand,
+                            frame: arg.frame
                         },
                     },
                 ],
@@ -179,8 +331,13 @@ let BlockchainService = class BlockchainService {
             console.log("selectBnoInfoTrx result trx : ", trx);
             console.log("selectBnoInfoTrx result trx['processed'].action_traces : ", trx['processed'].action_traces);
             const result = trx['processed'].action_traces[0].console;
+            const jsonArray = JSON.parse(result);
+            const output = jsonArray.map(item => {
+                const photosArray = item.photos.split(',');
+                return Object.assign(Object.assign({}, item), { photos: photosArray });
+            });
             try {
-                return JSON.parse(result);
+                return output;
             }
             catch (error) {
                 return result;
@@ -188,7 +345,7 @@ let BlockchainService = class BlockchainService {
         }
         catch (error) {
             console.log("selectBnoInfoTrx error : ", error.message);
-            throw new http_error_1.TransactionExecuteException(error);
+            return "FAIL[There is no data you searched for in the table.]";
         }
     }
 };

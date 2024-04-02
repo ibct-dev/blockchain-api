@@ -36,7 +36,7 @@ let BlockchainController = class BlockchainController {
     }
     async registerBnoInfoTrx(body) {
         try {
-            const rslt = await this._blockchainService.registerBnoInfoTrx(body.bnoinfo);
+            const rslt = await this._blockchainService.registerBnoInfoTrx(body);
             return rslt;
         }
         catch (error) {
@@ -45,9 +45,31 @@ let BlockchainController = class BlockchainController {
             });
         }
     }
+    async updateBnoInfoTrx(body) {
+        try {
+            const rslt = await this._blockchainService.updateBnoInfoTrx(body);
+            return rslt;
+        }
+        catch (error) {
+            throw new http_error_1.BadRequestException(error.message, {
+                context: "BlockchainController/updateBnoInfoTrx"
+            });
+        }
+    }
+    async deleteBnoInfoTrx(body) {
+        try {
+            const rslt = await this._blockchainService.deleteBnoInfoTrx(body);
+            return rslt;
+        }
+        catch (error) {
+            throw new http_error_1.BadRequestException(error.message, {
+                context: "BlockchainController/deleteBnoInfoTrx"
+            });
+        }
+    }
     async selectBnoInfoTrx(body) {
         try {
-            const rslt = await this._blockchainService.selectBnoInfoTrx(body.bno);
+            const rslt = await this._blockchainService.selectBnoInfoTrx(body);
             return rslt;
         }
         catch (error) {
@@ -64,6 +86,20 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], BlockchainController.prototype, "registerBnoInfoTrx", null);
+__decorate([
+    (0, common_1.Post)("updateBnoInfoTrx"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], BlockchainController.prototype, "updateBnoInfoTrx", null);
+__decorate([
+    (0, common_1.Post)("deleteBnoInfoTrx"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], BlockchainController.prototype, "deleteBnoInfoTrx", null);
 __decorate([
     (0, common_1.Post)("selectBnoInfoTrx"),
     __param(0, (0, common_1.Body)()),

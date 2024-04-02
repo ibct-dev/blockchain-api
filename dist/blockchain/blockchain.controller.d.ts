@@ -6,5 +6,7 @@ export declare class BlockchainController {
     private readonly _blockchainService;
     constructor(_blockchainService: IBlockchainService);
     registerBnoInfoTrx(body: any): Promise<any>;
+    updateBnoInfoTrx(body: any): Promise<any>;
+    deleteBnoInfoTrx(body: any): Promise<any>;
     selectBnoInfoTrx(body: any): Promise<any>;
 }

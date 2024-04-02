@@ -1,10 +1,26 @@
 export interface IBlockchainService {
-    registerBnoInfoTrx(bnoinfo: JSON): Promise<any>;
-    selectBnoInfoTrx(bno: string): Promise<any>;
+    registerBnoInfoTrx(bnoinfo: IRegisterBnoInfoActionInput): Promise<any>;
+    updateBnoInfoTrx(bnoinfo: IRegisterBnoInfoActionInput): Promise<any>;
+    deleteBnoInfoTrx(bnoinfo: IDeleteBnoInfoActionInput): Promise<any>;
+    selectBnoInfoTrx(bno: ISelectBnoInfoActionInput): Promise<any>;
 }
 export interface IRegisterBnoInfoActionInput {
-    bnoinfo: JSON;
+    bno: string;
+    title: string;
+    model: string;
+    year: string;
+    brand: string;
+    frame: string;
+    photos: JSON;
 }
 export interface ISelectBnoInfoActionInput {
+    bno: string;
+    title: string;
+    model: string;
+    year: string;
+    brand: string;
+    frame: string;
+}
+export interface IDeleteBnoInfoActionInput {
     bno: string;
 }

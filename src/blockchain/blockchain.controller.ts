@@ -21,7 +21,7 @@ export class BlockchainController {
     @Post("registerBnoInfoTrx")
     async registerBnoInfoTrx(@Body() body: any): Promise<any> {
         try {
-            const rslt = await this._blockchainService.registerBnoInfoTrx(body.bnoinfo);
+            const rslt = await this._blockchainService.registerBnoInfoTrx(body);
 
             return rslt;
         } catch (error: any) {
@@ -31,10 +31,36 @@ export class BlockchainController {
         }
     }
 
+    @Post("updateBnoInfoTrx")
+    async updateBnoInfoTrx(@Body() body: any): Promise<any> {
+        try {
+            const rslt = await this._blockchainService.updateBnoInfoTrx(body);
+
+            return rslt;
+        } catch (error: any) {
+            throw new BadRequestException(error.message, {
+                context:"BlockchainController/updateBnoInfoTrx"
+            });
+        }
+    }
+
+    @Post("deleteBnoInfoTrx")
+    async deleteBnoInfoTrx(@Body() body: any): Promise<any> {
+        try {
+            const rslt = await this._blockchainService.deleteBnoInfoTrx(body);
+
+            return rslt;
+        } catch (error: any) {
+            throw new BadRequestException(error.message, {
+                context:"BlockchainController/deleteBnoInfoTrx"
+            });
+        }
+    }
+
     @Post("selectBnoInfoTrx")
     async selectBnoInfoTrx(@Body() body: any): Promise<any> {
         try {
-            const rslt = await this._blockchainService.selectBnoInfoTrx(body.bno);
+            const rslt = await this._blockchainService.selectBnoInfoTrx(body);
 
             return rslt;
         } catch (error: any) {

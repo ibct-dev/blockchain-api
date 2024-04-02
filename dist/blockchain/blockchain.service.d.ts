@@ -1,5 +1,5 @@
 import { Api, JsonRpc } from "eosjs";
-import { IBlockchainService, IRegisterBnoInfoActionInput, ISelectBnoInfoActionInput } from "./blockchain.interface";
+import { IBlockchainService, IRegisterBnoInfoActionInput, IDeleteBnoInfoActionInput, ISelectBnoInfoActionInput } from "./blockchain.interface";
 import { ErrorHandlerService } from "@shared/modules/error-handler/error-handler.service";
 export declare class BlockchainService implements IBlockchainService {
     private readonly _errorService;
@@ -14,9 +14,13 @@ export declare class BlockchainService implements IBlockchainService {
     didapi: Api;
     constructor(_errorService: ErrorHandlerService);
     gethello(): string;
-    registerBnoInfoTrx(bnoinfo: JSON): Promise<any>;
-    selectBnoInfoTrx(bno: string): Promise<any>;
+    registerBnoInfoTrx(bnoinfo: IRegisterBnoInfoActionInput): Promise<any>;
+    updateBnoInfoTrx(bnoinfo: IRegisterBnoInfoActionInput): Promise<any>;
+    deleteBnoInfoTrx(bnoinfo: IDeleteBnoInfoActionInput): Promise<any>;
+    selectBnoInfoTrx(bnoinfo: ISelectBnoInfoActionInput): Promise<any>;
     sha256(input: string): string;
     registerBnoInfoTrxFunc(arg: IRegisterBnoInfoActionInput): Promise<any>;
+    updateBnoInfoTrxFunc(arg: IRegisterBnoInfoActionInput): Promise<any>;
+    deleteBnoInfoTrxFunc(arg: IDeleteBnoInfoActionInput): Promise<any>;
     selectBnoInfoTrxFunc(arg: ISelectBnoInfoActionInput): Promise<any>;
 }
