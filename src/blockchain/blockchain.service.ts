@@ -105,12 +105,14 @@ export class BlockchainService implements IBlockchainService {
 
     getCurrentDateTime(): string {
         const now: Date = new Date();
-        const year: number = now.getFullYear();
-        const month: number = now.getMonth() + 1; // Month is zero-based
-        const day: number = now.getDate();
-        const hours: number = now.getHours();
-        const minutes: number = now.getMinutes();
-        const seconds: number = now.getSeconds();
+        const offset: number = 9; // KST is UTC+9
+        const localTime: Date = new Date(now.getTime() + offset * 60 * 60 * 1000);
+        const year: number = localTime.getFullYear();
+        const month: number = localTime.getMonth() + 1; // Month is zero-based
+        const day: number = localTime.getDate();
+        const hours: number = localTime.getHours();
+        const minutes: number = localTime.getMinutes();
+        const seconds: number = localTime.getSeconds();
     
         const formattedDate: string = `${year}-${this.padNumber(month)}-${this.padNumber(day)}`;
         const formattedTime: string = `${this.padNumber(hours)}:${this.padNumber(minutes)}:${this.padNumber(seconds)}`;
