@@ -83,7 +83,8 @@ export class BlockchainService implements IBlockchainService {
                 year: "",
                 brand: "",
                 frame: "",
-                bid: ""
+                bid: "",
+                regidt: ""
             }
             const chk = await this.selectBnoInfoTrx(selectParams);
             if(JSON.stringify(chk).indexOf("FAIL") == -1) {
@@ -102,6 +103,25 @@ export class BlockchainService implements IBlockchainService {
         }
     }
 
+    getCurrentDateTime(): string {
+        const now: Date = new Date();
+        const year: number = now.getFullYear();
+        const month: number = now.getMonth() + 1; // Month is zero-based
+        const day: number = now.getDate();
+        const hours: number = now.getHours();
+        const minutes: number = now.getMinutes();
+        const seconds: number = now.getSeconds();
+    
+        const formattedDate: string = `${year}-${this.padNumber(month)}-${this.padNumber(day)}`;
+        const formattedTime: string = `${this.padNumber(hours)}:${this.padNumber(minutes)}:${this.padNumber(seconds)}`;
+    
+        return `${formattedDate}${formattedTime}`;
+    }
+    
+    padNumber(number: number): string {
+        return number < 10 ? `0${number}` : `${number}`;
+    }
+
     async updateBnoInfoTrx(bnoinfo: IRegisterBnoInfoActionInput): Promise<any> {
         const inputParams = {
             bnoinfo: bnoinfo
@@ -116,7 +136,8 @@ export class BlockchainService implements IBlockchainService {
                 year: "",
                 brand: "",
                 frame: "",
-                bid: ""
+                bid: "",
+                regidt: ""
             }
             const chk = await this.selectBnoInfoTrx(selectParams);
             if(JSON.stringify(chk).indexOf("FAIL") != -1) {
@@ -150,6 +171,7 @@ export class BlockchainService implements IBlockchainService {
                 brand: "",
                 frame: "",
                 bid: "",
+                regidt: ""
             }
             const chk = await this.selectBnoInfoTrx(selectParams);
             if(JSON.stringify(chk).indexOf("FAIL") != -1) {
@@ -204,6 +226,7 @@ export class BlockchainService implements IBlockchainService {
             );
 
             const bid = uuidv4();
+            const regidt = this.getCurrentDateTime();
 
             // eos.didapi.signatureProvider = new JsSignatureProvider([privtKey]);
             // console.log("eos.api.transact start : ", privtKey);
@@ -228,7 +251,8 @@ export class BlockchainService implements IBlockchainService {
                                 brand: arg.brand,
                                 frame: arg.frame,
                                 photos: arg.photos,
-                                bid: bid
+                                bid: bid,
+                                regidt: regidt
                             },
                         },
                     ],
@@ -288,7 +312,9 @@ export class BlockchainService implements IBlockchainService {
                                 year: arg.year,
                                 brand: arg.brand,
                                 frame: arg.frame,
-                                photos: arg.photos
+                                photos: arg.photos,
+                                bid: arg.bid,
+                                regidt: arg.regidt
                             },
                         },
                     ],
@@ -396,7 +422,8 @@ export class BlockchainService implements IBlockchainService {
                                 year: arg.year,
                                 brand: arg.brand,
                                 frame: arg.frame,
-                                bid: arg.bid
+                                bid: arg.bid,
+                                regidt: arg.regidt
                             },
                         },
                     ],

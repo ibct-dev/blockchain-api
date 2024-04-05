@@ -14,6 +14,7 @@ export interface IRegisterBnoInfoActionInput {
     frame: string;
     photos: JSON;
     bid: string;
+    regidt: string;
 }
 
 export interface ISelectBnoInfoActionInput {
@@ -24,6 +25,7 @@ export interface ISelectBnoInfoActionInput {
     brand: string;
     frame: string;
     bid: string;
+    regidt: string;
 }
 
 export interface IDeleteBnoInfoActionInput {
