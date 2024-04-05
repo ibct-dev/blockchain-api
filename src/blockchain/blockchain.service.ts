@@ -465,8 +465,8 @@ export class BlockchainService implements IBlockchainService {
         } catch (error) {
             console.log("selectBnoInfoTrx error : ", error.message);
             // throw new TransactionExecuteException(error);
-            throw new Error("There is no data you searched for in the table.");
-            // return "FAIL[There is no data you searched for in the table.]";
+            // throw new Error("There is no data you searched for in the table.");
+            return "FAIL[There is no data you searched for in the table.]";
         }
     }
 
