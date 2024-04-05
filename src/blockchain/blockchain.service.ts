@@ -115,7 +115,7 @@ export class BlockchainService implements IBlockchainService {
         const formattedDate: string = `${year}-${this.padNumber(month)}-${this.padNumber(day)}`;
         const formattedTime: string = `${this.padNumber(hours)}:${this.padNumber(minutes)}:${this.padNumber(seconds)}`;
     
-        return `${formattedDate}${formattedTime}`;
+        return `${formattedDate} ${formattedTime}`;
     }
     
     padNumber(number: number): string {
