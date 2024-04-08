@@ -217,8 +217,8 @@ export class BlockchainService implements IBlockchainService {
             // const privtKey = config.led_priv;
             const accountId = config.led_lit_code;
 
-            console.log("accountId : ", accountId);
-            console.log("code : ", code);
+            // console.log("accountId : ", accountId);
+            // console.log("code : ", code);
             // const bno = JSON.parse(JSON.stringify(bnoinfo)).bno;
             // console.log("bno : ", bno);
             // const eos = new BlockchainService();
@@ -436,8 +436,8 @@ export class BlockchainService implements IBlockchainService {
                 }
             );
 
-            console.log("selectBnoInfoTrx result trx : ", trx);
-            console.log("selectBnoInfoTrx result trx['processed'].action_traces : ", trx['processed'].action_traces);
+            // console.log("selectBnoInfoTrx result trx : ", trx);
+            // console.log("selectBnoInfoTrx result trx['processed'].action_traces : ", trx['processed'].action_traces);
 
             const result = trx['processed'].action_traces[0].console;
             const jsonArray = JSON.parse(result);
