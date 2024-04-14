@@ -213,7 +213,7 @@ export class BlockchainService implements IBlockchainService {
         try {
             // const { bnoinfo } = arg;
 
-            const code = config.led_lit_code;
+            const code = config.actor_code;
             const actor_code = config.actor_code;
             // const privtKey = config.led_priv;
             const accountId = config.actor_code;
@@ -279,7 +279,7 @@ export class BlockchainService implements IBlockchainService {
         try {
             // const { bnoinfo } = arg;
 
-            const code = config.led_lit_code;
+            const code = config.actor_code;
             const actor_code = config.actor_code;
             // const privtKey = config.led_priv;
             const accountId = config.actor_code;
@@ -341,7 +341,7 @@ export class BlockchainService implements IBlockchainService {
         try {
             // const { bnoinfo } = arg;
 
-            const code = config.led_lit_code;
+            const code = config.actor_code;
             const actor_code = config.actor_code;
             // const privtKey = config.led_priv;
             const accountId = config.actor_code;
@@ -395,7 +395,7 @@ export class BlockchainService implements IBlockchainService {
         try {
             // const { bno } = arg;
    
-            const code = config.led_lit_code;
+            const code = config.actor_code;
             const actor_code = config.actor_code;
             // const privtKey = config.led_priv;
             const accountId = config.actor_code;
