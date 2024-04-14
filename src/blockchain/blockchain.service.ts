@@ -216,7 +216,7 @@ export class BlockchainService implements IBlockchainService {
             const code = config.led_lit_code;
             const actor_code = config.actor_code;
             // const privtKey = config.led_priv;
-            const accountId = config.led_lit_code;
+            const accountId = config.actor_code;
 
             // console.log("accountId : ", accountId);
             // console.log("code : ", code);
@@ -282,7 +282,7 @@ export class BlockchainService implements IBlockchainService {
             const code = config.led_lit_code;
             const actor_code = config.actor_code;
             // const privtKey = config.led_priv;
-            const accountId = config.led_lit_code;
+            const accountId = config.actor_code;
 
             console.log("accountId : ", accountId);
             console.log("code : ", code);
@@ -344,7 +344,7 @@ export class BlockchainService implements IBlockchainService {
             const code = config.led_lit_code;
             const actor_code = config.actor_code;
             // const privtKey = config.led_priv;
-            const accountId = config.led_lit_code;
+            const accountId = config.actor_code;
 
             console.log("accountId : ", accountId);
             console.log("code : ", code);
@@ -398,7 +398,7 @@ export class BlockchainService implements IBlockchainService {
             const code = config.led_lit_code;
             const actor_code = config.actor_code;
             // const privtKey = config.led_priv;
-            const accountId = config.led_lit_code;
+            const accountId = config.actor_code;
             // const eos = new BlockchainService();
             // eos.didapi.signatureProvider = new JsSignatureProvider([privtKey]);
             this.didapi.signatureProvider = new JsSignatureProvider(
