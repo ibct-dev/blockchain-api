@@ -22,6 +22,7 @@ export const config = {
     lit_did_endpoint: process.env.LIT_DID_ENDPOINT || "",
     led_code: process.env.LED_CODE || "",
     led_lit_code: process.env.LED_LIT_CODE || "",
+    actor_code: process.env.ACTOR_CODE || "",
 
     //Led key
     led_priv: process.env.LED_PRIVATE_KEYS || "",

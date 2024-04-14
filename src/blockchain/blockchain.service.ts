@@ -214,6 +214,7 @@ export class BlockchainService implements IBlockchainService {
             // const { bnoinfo } = arg;
 
             const code = config.led_lit_code;
+            const actor_code = config.actor_code;
             // const privtKey = config.led_priv;
             const accountId = config.led_lit_code;
 
@@ -240,7 +241,7 @@ export class BlockchainService implements IBlockchainService {
                             name: "regbnoinfo",
                             authorization: [
                                 {
-                                    actor: code,
+                                    actor: actor_code,
                                     permission: "active",
                                 },
                             ],
@@ -279,6 +280,7 @@ export class BlockchainService implements IBlockchainService {
             // const { bnoinfo } = arg;
 
             const code = config.led_lit_code;
+            const actor_code = config.actor_code;
             // const privtKey = config.led_priv;
             const accountId = config.led_lit_code;
 
@@ -302,7 +304,7 @@ export class BlockchainService implements IBlockchainService {
                             name: "udtbnoinfo",
                             authorization: [
                                 {
-                                    actor: code,
+                                    actor: actor_code,
                                     permission: "active",
                                 },
                             ],
@@ -340,6 +342,7 @@ export class BlockchainService implements IBlockchainService {
             // const { bnoinfo } = arg;
 
             const code = config.led_lit_code;
+            const actor_code = config.actor_code;
             // const privtKey = config.led_priv;
             const accountId = config.led_lit_code;
 
@@ -363,7 +366,7 @@ export class BlockchainService implements IBlockchainService {
                             name: "delbnoinfo",
                             authorization: [
                                 {
-                                    actor: code,
+                                    actor: actor_code,
                                     permission: "active",
                                 },
                             ],
@@ -393,6 +396,7 @@ export class BlockchainService implements IBlockchainService {
             // const { bno } = arg;
    
             const code = config.led_lit_code;
+            const actor_code = config.actor_code;
             // const privtKey = config.led_priv;
             const accountId = config.led_lit_code;
             // const eos = new BlockchainService();
@@ -412,7 +416,7 @@ export class BlockchainService implements IBlockchainService {
                             name: "selbnoinfo",
                             authorization: [
                                 {
-                                    actor: code,
+                                    actor: actor_code,
                                     permission: "active",
                                 },
                             ],
