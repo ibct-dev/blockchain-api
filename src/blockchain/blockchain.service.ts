@@ -266,7 +266,7 @@ export class BlockchainService implements IBlockchainService {
                 }
             );
             const result = {
-                // objecId : trx['processed'].id //.action_traces[0].console;
+                trxId : trx['processed'].id, //.action_traces[0].console;
                 bid : bid //.action_traces[0].console;
             }
             return result;
