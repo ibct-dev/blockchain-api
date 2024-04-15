@@ -266,7 +266,7 @@ export class BlockchainService implements IBlockchainService {
                 }
             );
             const result = {
-                trxId : trx['processed'].id, //.action_traces[0].console;
+                trxId : this.convertToUpperCase(trx['processed'].id), //.action_traces[0].console;
                 bid : bid //.action_traces[0].console;
             }
             return result;
@@ -476,5 +476,20 @@ export class BlockchainService implements IBlockchainService {
         }
     }
 
+    convertToUpperCase(input: string): string {
+        let result = '';
+        for (let i = 0; i < input.length; i++) {
+            const char = input[i];
+            // Check if the character is a lowercase letter
+            if (char >= 'a' && char <= 'z') {
+                // Convert the lowercase letter to uppercase using ASCII code manipulation
+                result += String.fromCharCode(char.charCodeAt(0) - 32);
+            } else {
+                // If the character is not a lowercase letter, keep it unchanged
+                result += char;
+            }
+        }
+        return result;
+    }
 
 }
