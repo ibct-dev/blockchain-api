@@ -442,18 +442,23 @@ export class BlockchainService implements IBlockchainService {
 
             // console.log("selectBnoInfoTrx result trx : ", trx);
             // console.log("selectBnoInfoTrx result trx['processed'].action_traces : ", trx['processed'].action_traces);
+            let result;
+            try {
+                result = trx['processed'].action_traces[0].console;
+                const jsonArray = JSON.parse(result);
+                const output = jsonArray.map(item => {
+                    const photosArray = item.photos.split(',');
+                    return {
+                        ...item,
+                        photos: photosArray
+                    };
+                });
 
-            const result = trx['processed'].action_traces[0].console;
-            const jsonArray = JSON.parse(result);
-            const output = jsonArray.map(item => {
-                const photosArray = item.photos.split(',');
-                return {
-                    ...item,
-                    photos: photosArray
-                };
-            });
-
-
+                return output;
+                
+            } catch(error) {
+                return result;
+            }
 
             // const input  = JSON.parse(result);
             // const photosArray = JSON.parse(result).photos.split(',');
@@ -462,12 +467,7 @@ export class BlockchainService implements IBlockchainService {
             //     ...input,
             //     photos: photosArray
             // }
-            try {
-                return output;
-                
-            } catch(error) {
-                return result;
-            }
+
         } catch (error) {
             console.log("selectBnoInfoTrx error : ", error.message);
             // throw new TransactionExecuteException(error);
