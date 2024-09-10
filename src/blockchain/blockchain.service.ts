@@ -633,7 +633,7 @@ export class BlockchainService implements IBlockchainService {
             let result;
             try {
                 result = trx['processed'].action_traces[0].console;
-                // const jsonArray = JSON.parse(result);
+                const jsonArray = JSON.parse(result);
                 // const output = jsonArray.map(item => {
                 //     const photosArray = item.photos.split(',');
                 //     return {
@@ -642,7 +642,7 @@ export class BlockchainService implements IBlockchainService {
                 //     };
                 // });
 
-                return result;
+                return jsonArray;
                 
             } catch(error) {
                 return result;
