@@ -633,16 +633,16 @@ export class BlockchainService implements IBlockchainService {
             let result;
             try {
                 result = trx['processed'].action_traces[0].console;
-                const jsonArray = JSON.parse(result);
-                const output = jsonArray.map(item => {
-                    const photosArray = item.photos.split(',');
-                    return {
-                        ...item,
-                        photos: photosArray
-                    };
-                });
+                // const jsonArray = JSON.parse(result);
+                // const output = jsonArray.map(item => {
+                //     const photosArray = item.photos.split(',');
+                //     return {
+                //         ...item,
+                //         photos: photosArray
+                //     };
+                // });
 
-                return output;
+                return result;
                 
             } catch(error) {
                 return result;
