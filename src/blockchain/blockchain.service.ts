@@ -569,11 +569,15 @@ export class BlockchainService implements IBlockchainService {
             const sresult = trx['processed'].action_traces[0].console;
             console.log("registerWrbtsInfFunc regbnoinfo trx : ", sresult);
 
+            const result = {
+                "message": sresult,
+                "context": "BlockchainService/registerWrbtsInfFunc"
+            }
             // const result = {
             //     trxId : this.convertToUpperCase(trx['processed'].id), //.action_traces[0].console;
             //     bid : bid //.action_traces[0].console;
             // }
-            return sresult;
+            return result;
         } catch (error) {
             throw new Error(error);
         }
