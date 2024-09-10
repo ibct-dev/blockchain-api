@@ -641,6 +641,7 @@ export class BlockchainService implements IBlockchainService {
             let result;
             try {
                 result = trx['processed'].action_traces[0].console;
+                console.log("selectWrbtsInfFunc result : ", result);
                 const jsonArray = JSON.parse(result);
                 // const output = jsonArray.map(item => {
                 //     const photosArray = item.photos.split(',');
