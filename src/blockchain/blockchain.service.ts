@@ -565,13 +565,16 @@ export class BlockchainService implements IBlockchainService {
                     expireSeconds: 30,
                 }
             );
+
+            console.log("registerWrbtsInfFunc regbnoinfo trx : ", trx);
+
             const result = {
                 trxId : this.convertToUpperCase(trx['processed'].id), //.action_traces[0].console;
                 bid : bid //.action_traces[0].console;
             }
             return result;
         } catch (error) {
-            throw new TransactionExecuteException(error);
+            throw new Error(error);
         }
     }
     
