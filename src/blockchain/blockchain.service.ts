@@ -1,5 +1,6 @@
 /* eslint-disable security/detect-object-injection */
 import { v4 as uuidv4 } from 'uuid';
+import bs58 from "bs58";
 import * as crypto from 'crypto';
 import { getTime } from "@src/shared/services/time";
 import { Inject, Injectable } from "@nestjs/common";
@@ -551,7 +552,7 @@ export class BlockchainService implements IBlockchainService {
                             data: {
                                 accountId,
                                 did: arg.did,
-                                bno: uuidv4(),
+                                bno: bs58.encode(uuidv4()),
                                 transport: arg.transport,
                                 stime: arg.stime,
                                 etime: arg.etime,
