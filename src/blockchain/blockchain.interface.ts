@@ -37,7 +37,6 @@ export interface IDeleteBnoInfoActionInput {
 
 export interface IRegisterWrbtsInfActionInput {
     did: string;
-    bno: string;
     transport: string;
     stime: string;
     etime: string;
@@ -46,7 +45,6 @@ export interface IRegisterWrbtsInfActionInput {
 
 export interface ISelectWrbtsInfActionInput {
     did: string;
-    bno: string;
     transport: string;
     stime: string;
     etime: string;
