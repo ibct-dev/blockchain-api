@@ -4,8 +4,8 @@ export interface IBlockchainService {
     deleteBnoInfoTrx(bnoinfo: IDeleteBnoInfoActionInput): Promise<any>;
     selectBnoInfoTrx(bno: ISelectBnoInfoActionInput): Promise<any>;
 
-    registerWrbtsInf(bnoinfo: IRegisterBnoInfoActionInput): Promise<any>;
-    selectWrbtsInf(bno: ISelectBnoInfoActionInput): Promise<any>;
+    registerWrbtsInf(bnoinfo: IRegisterWrbtsInfActionInput): Promise<any>;
+    selectWrbtsInf(bno: ISelectWrbtsInfActionInput): Promise<any>;
 }
 
 export interface IRegisterBnoInfoActionInput {
@@ -33,4 +33,22 @@ export interface ISelectBnoInfoActionInput {
 
 export interface IDeleteBnoInfoActionInput {
     bno: string; 
+}
+
+export interface IRegisterWrbtsInfActionInput {
+    did: string;
+    bno: string;
+    transport: string;
+    stime: string;
+    etime: string;
+    distance: string;
+}
+
+export interface ISelectWrbtsInfActionInput {
+    did: string;
+    bno: string;
+    transport: string;
+    stime: string;
+    etime: string;
+    distance: string;
 }

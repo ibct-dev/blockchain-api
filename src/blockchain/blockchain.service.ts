@@ -17,7 +17,9 @@ import {
     IBlockchainService,
     IRegisterBnoInfoActionInput,
     IDeleteBnoInfoActionInput,
-    ISelectBnoInfoActionInput
+    ISelectBnoInfoActionInput,
+    IRegisterWrbtsInfActionInput,
+    ISelectWrbtsInfActionInput
 } from "./blockchain.interface";
 
 import { ErrorHandlerService } from "@shared/modules/error-handler/error-handler.service";
@@ -497,30 +499,9 @@ export class BlockchainService implements IBlockchainService {
     // 2024/09/10 라이트브러더스 탄소중립 포인트
 
 
-    async registerWrbtsInf(bnoinfo: IRegisterBnoInfoActionInput): Promise<any> {
+    async registerWrbtsInf(bnoinfo: IRegisterWrbtsInfActionInput): Promise<any> {
         const inputParams = {
             bnoinfo: bnoinfo
-        }
-
-        try {
-            const bno = bnoinfo.bno;
-            const selectParams: ISelectBnoInfoActionInput = {
-                bno: bno,
-                title: "",
-                model: "",
-                year: "",
-                brand: "",
-                frame: "",
-                bid: "",
-                regidt: ""
-            }
-            const chk = await this.selectWrbtsInf(selectParams);
-            if(JSON.stringify(chk).indexOf("FAIL") == -1) {
-                throw new Error("Data already exists in table");    
-            }
-        } catch(error) {
-            console.log("SaaS selectTraninfoTrx error : ", error);
-            throw new Error(error);
         }
 
         try {
@@ -531,7 +512,7 @@ export class BlockchainService implements IBlockchainService {
         }
     }  
 
-    async registerWrbtsInfFunc (arg: IRegisterBnoInfoActionInput): Promise<any> {
+    async registerWrbtsInfFunc (arg: IRegisterWrbtsInfActionInput): Promise<any> {
         try {
             // const { bnoinfo } = arg;
 
@@ -540,11 +521,11 @@ export class BlockchainService implements IBlockchainService {
             // const privtKey = config.led_priv;
             const accountId = config.actor_code;
 
-            // console.log("accountId : ", accountId);
-            // console.log("code : ", code);
-            // const bno = JSON.parse(JSON.stringify(bnoinfo)).bno;
-            // console.log("bno : ", bno);
-            // const eos = new BlockchainService();
+            if(arg.transport!='01' && arg.transport!='02' && arg.transport!='03'
+                && arg.transport!='04' && arg.transport!='05' && arg.transport!='06'
+            ) {
+                throw new Error("This is a transport code error. (01. WALK 02. BIKE 03. CAR 04. BUS 05. SUBWAY 06. ETC)");
+            }
 
             this.api.signatureProvider = new JsSignatureProvider(
                 (config.led_priv as string).split(" ")
@@ -569,15 +550,12 @@ export class BlockchainService implements IBlockchainService {
                             ],
                             data: {
                                 accountId,
+                                did: arg.did,
                                 bno: arg.bno,
-                                title: arg.title,
-                                model: arg.model,
-                                year: arg.year,
-                                brand: arg.brand,
-                                frame: arg.frame,
-                                photos: arg.photos,
-                                bid: bid,
-                                regidt: regidt
+                                transport: arg.transport,
+                                stime: arg.stime,
+                                etime: arg.etime,
+                                distance: arg.distance
                             },
                         },
                     ],
@@ -597,7 +575,7 @@ export class BlockchainService implements IBlockchainService {
         }
     }
     
-    async selectWrbtsInf(bnoinfo: ISelectBnoInfoActionInput): Promise<any> {
+    async selectWrbtsInf(bnoinfo: ISelectWrbtsInfActionInput): Promise<any> {
         try {
             return await this.selectWrbtsInfFunc(bnoinfo);
         } catch(error) {
@@ -606,7 +584,7 @@ export class BlockchainService implements IBlockchainService {
         }
     }
     
-    async selectWrbtsInfFunc(arg: ISelectBnoInfoActionInput): Promise<any> {
+    async selectWrbtsInfFunc(arg: ISelectWrbtsInfActionInput): Promise<any> {
         try {
             const code = config.actor_code;
             const actor_code = config.actor_code;
@@ -634,14 +612,12 @@ export class BlockchainService implements IBlockchainService {
                             ],
                             data: {
                                 accountId,
+                                did: arg.did,
                                 bno: arg.bno,
-                                title: arg.title,
-                                model: arg.model,
-                                year: arg.year,
-                                brand: arg.brand,
-                                frame: arg.frame,
-                                bid: arg.bid,
-                                regidt: arg.regidt
+                                transport: arg.transport,
+                                stime: arg.stime,
+                                etime: arg.etime,
+                                distance: arg.distance
                             },
                         },
                     ],
