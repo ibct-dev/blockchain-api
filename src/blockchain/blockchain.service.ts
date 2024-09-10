@@ -654,7 +654,11 @@ export class BlockchainService implements IBlockchainService {
                 return jsonArray;
                 
             } catch(error) {
-                return result;
+                const eresult = {
+                    "message": result,
+                    "context": "BlockchainService/selectWrbtsInfFunc"
+                }
+                return eresult;
             }
 
             // const input  = JSON.parse(result);
