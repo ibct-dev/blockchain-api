@@ -7,8 +7,6 @@ import { config } from "@config";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { NestFactory } from "@nestjs/core";
 import { ValidationPipe } from "@nestjs/common";
-import { LoggerModule } from "@src/shared/infra/logger/logger.module";
-import { LoggerService } from "@src/shared/infra/logger/logger.service";
 import "cross-fetch/polyfill";
 // import { customConsoleLog } from '@src/custom-logger';
 import { join } from "path";
@@ -22,7 +20,7 @@ async function bootstrap() {
         //     cert: fs.readFileSync(`./ssl/product/server.crt`)
         // },
     });
-    const loggerService = app.select(LoggerModule).get(LoggerService);
+    // const loggerService = app.select(LoggerModule).get(LoggerService);
 
     try {
         // const documentOptions = new DocumentBuilder()
@@ -56,7 +54,7 @@ async function bootstrap() {
                 skip(req, res) {
                     return res.statusCode < 400;
                 },
-                stream: loggerService.errorStream,
+                // stream: loggerService.errorStream,
             })
         );
 
