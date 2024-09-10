@@ -551,7 +551,7 @@ export class BlockchainService implements IBlockchainService {
                             data: {
                                 accountId,
                                 did: arg.did,
-                                bno: arg.bno,
+                                bno: uuidv4(),
                                 transport: arg.transport,
                                 stime: arg.stime,
                                 etime: arg.etime,
@@ -621,7 +621,6 @@ export class BlockchainService implements IBlockchainService {
                             data: {
                                 accountId,
                                 did: arg.did,
-                                bno: uuidv4(),
                                 transport: arg.transport,
                                 stime: arg.stime,
                                 etime: arg.etime,
