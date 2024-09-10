@@ -3,6 +3,9 @@ export interface IBlockchainService {
     updateBnoInfoTrx(bnoinfo: IRegisterBnoInfoActionInput): Promise<any>;
     deleteBnoInfoTrx(bnoinfo: IDeleteBnoInfoActionInput): Promise<any>;
     selectBnoInfoTrx(bno: ISelectBnoInfoActionInput): Promise<any>;
+
+    registerWrbtsInf(bnoinfo: IRegisterBnoInfoActionInput): Promise<any>;
+    selectWrbtsInf(bno: ISelectBnoInfoActionInput): Promise<any>;
 }
 
 export interface IRegisterBnoInfoActionInput {

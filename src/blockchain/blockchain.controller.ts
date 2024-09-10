@@ -70,6 +70,33 @@ export class BlockchainController {
         }
     }
 
+    // 2024/09/10 라이트브러더스 탄소중립 포인트 정보 등록
+    @Post("registerWrbtsInf")
+    async registerWrbtsInf(@Body() body: any): Promise<any> {
+        try {
+            const rslt = await this._blockchainService.registerWrbtsInf(body);
+
+            return rslt;
+        } catch (error: any) {
+            throw new BadRequestException(error.message, {
+                context:"BlockchainController/registerWrbtsInf"
+            });
+        }
+    }   
+
+    // 2024/09/10 라이트브러더스 탄소중립 포인트 정보 조회
+    @Post("selectWrbtsInf")
+    async selectWrbtsInf(@Body() body: any): Promise<any> {
+        try {
+            const rslt = await this._blockchainService.selectWrbtsInf(body);
+
+            return rslt;
+        } catch (error: any) {
+            throw new BadRequestException(error.message, {
+                context:"BlockchainController/selectBnoInfoTrx"
+            });
+        }
+    }
     
 
 }

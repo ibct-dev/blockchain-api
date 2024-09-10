@@ -492,4 +492,200 @@ export class BlockchainService implements IBlockchainService {
         return result;
     }
 
+
+
+    // 2024/09/10 라이트브러더스 탄소중립 포인트
+
+
+    async registerWrbtsInf(bnoinfo: IRegisterBnoInfoActionInput): Promise<any> {
+        const inputParams = {
+            bnoinfo: bnoinfo
+        }
+
+        try {
+            const bno = bnoinfo.bno;
+            const selectParams: ISelectBnoInfoActionInput = {
+                bno: bno,
+                title: "",
+                model: "",
+                year: "",
+                brand: "",
+                frame: "",
+                bid: "",
+                regidt: ""
+            }
+            const chk = await this.selectWrbtsInf(selectParams);
+            if(JSON.stringify(chk).indexOf("FAIL") == -1) {
+                throw new Error("Data already exists in table");    
+            }
+        } catch(error) {
+            console.log("SaaS selectTraninfoTrx error : ", error);
+            throw new Error(error);
+        }
+
+        try {
+            return await this.registerWrbtsInfFunc(bnoinfo);
+        } catch(error) {
+            console.log("SaaS registerWrbtsInf error : ", error);
+            throw new Error(error);
+        }
+    }  
+
+    async registerWrbtsInfFunc (arg: IRegisterBnoInfoActionInput): Promise<any> {
+        try {
+            // const { bnoinfo } = arg;
+
+            const code = config.actor_code;
+            const actor_code = config.actor_code;
+            // const privtKey = config.led_priv;
+            const accountId = config.actor_code;
+
+            // console.log("accountId : ", accountId);
+            // console.log("code : ", code);
+            // const bno = JSON.parse(JSON.stringify(bnoinfo)).bno;
+            // console.log("bno : ", bno);
+            // const eos = new BlockchainService();
+
+            this.api.signatureProvider = new JsSignatureProvider(
+                (config.led_priv as string).split(" ")
+            );
+
+            const bid = uuidv4();
+            const regidt = this.getCurrentDateTime();
+
+            // eos.didapi.signatureProvider = new JsSignatureProvider([privtKey]);
+            // console.log("eos.api.transact start : ", privtKey);
+            const trx = await this.api.transact(
+                {
+                    actions: [
+                        {
+                            account: code,
+                            name: "regbnoinfo",
+                            authorization: [
+                                {
+                                    actor: actor_code,
+                                    permission: "active",
+                                },
+                            ],
+                            data: {
+                                accountId,
+                                bno: arg.bno,
+                                title: arg.title,
+                                model: arg.model,
+                                year: arg.year,
+                                brand: arg.brand,
+                                frame: arg.frame,
+                                photos: arg.photos,
+                                bid: bid,
+                                regidt: regidt
+                            },
+                        },
+                    ],
+                },
+                {
+                    blocksBehind: 3,
+                    expireSeconds: 30,
+                }
+            );
+            const result = {
+                trxId : this.convertToUpperCase(trx['processed'].id), //.action_traces[0].console;
+                bid : bid //.action_traces[0].console;
+            }
+            return result;
+        } catch (error) {
+            throw new TransactionExecuteException(error);
+        }
+    }
+    
+    async selectWrbtsInf(bnoinfo: ISelectBnoInfoActionInput): Promise<any> {
+        try {
+            return await this.selectWrbtsInfFunc(bnoinfo);
+        } catch(error) {
+            console.log("SaaS selectWrbtsInf error : ", error);
+            throw new Error(error);
+        }
+    }
+    
+    async selectWrbtsInfFunc(arg: ISelectBnoInfoActionInput): Promise<any> {
+        try {
+            const code = config.actor_code;
+            const actor_code = config.actor_code;
+            // const privtKey = config.led_priv;
+            const accountId = config.actor_code;
+            // const eos = new BlockchainService();
+            // eos.didapi.signatureProvider = new JsSignatureProvider([privtKey]);
+            this.api.signatureProvider = new JsSignatureProvider(
+                (config.led_priv as string).split(" ")
+            );
+
+            console.log("selectWrbtsInfFunc arg :::::: ", arg);
+
+            const trx = await this.api.transact(
+                {
+                    actions: [
+                        {
+                            account: code,
+                            name: "selbnoinfo",
+                            authorization: [
+                                {
+                                    actor: actor_code,
+                                    permission: "active",
+                                },
+                            ],
+                            data: {
+                                accountId,
+                                bno: arg.bno,
+                                title: arg.title,
+                                model: arg.model,
+                                year: arg.year,
+                                brand: arg.brand,
+                                frame: arg.frame,
+                                bid: arg.bid,
+                                regidt: arg.regidt
+                            },
+                        },
+                    ],
+                },
+                {
+                    blocksBehind: 3,
+                    expireSeconds: 30,
+                }
+            );
+
+            // console.log("selectBnoInfoTrx result trx : ", trx);
+            // console.log("selectBnoInfoTrx result trx['processed'].action_traces : ", trx['processed'].action_traces);
+            let result;
+            try {
+                result = trx['processed'].action_traces[0].console;
+                const jsonArray = JSON.parse(result);
+                const output = jsonArray.map(item => {
+                    const photosArray = item.photos.split(',');
+                    return {
+                        ...item,
+                        photos: photosArray
+                    };
+                });
+
+                return output;
+                
+            } catch(error) {
+                return result;
+            }
+
+            // const input  = JSON.parse(result);
+            // const photosArray = JSON.parse(result).photos.split(',');
+
+            // const output = {
+            //     ...input,
+            //     photos: photosArray
+            // }
+
+        } catch (error) {
+            console.log("selectWrbtsInfFunc error : ", error.message);
+            // throw new TransactionExecuteException(error);
+            // throw new Error("There is no data you searched for in the table.");
+            return "FAIL[There is no data you searched for in the table.]";
+        }
+    }    
+
 }
