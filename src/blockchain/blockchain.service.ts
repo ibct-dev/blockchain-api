@@ -552,7 +552,7 @@ export class BlockchainService implements IBlockchainService {
                             data: {
                                 accountId,
                                 did: arg.did,
-                                bno: bs58.encode(uuidv4()),
+                                bno: bs58.encode(Buffer.from(uuidv4())),
                                 transport: arg.transport,
                                 stime: arg.stime,
                                 etime: arg.etime,
