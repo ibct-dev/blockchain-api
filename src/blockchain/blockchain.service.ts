@@ -499,27 +499,10 @@ export class BlockchainService implements IBlockchainService {
 
     // 2024/09/10 라이트브러더스 탄소중립 포인트
 
-
-    async registerWrbtsInf(bnoinfo: IRegisterWrbtsInfActionInput): Promise<any> {
-        const inputParams = {
-            bnoinfo: bnoinfo
-        }
-
+    async registerWrbtsInf (arg: IRegisterWrbtsInfActionInput): Promise<any> {
         try {
-            return await this.registerWrbtsInfFunc(bnoinfo);
-        } catch(error) {
-            console.log("SaaS registerWrbtsInf error : ", error);
-            throw new Error(error);
-        }
-    }  
-
-    async registerWrbtsInfFunc (arg: IRegisterWrbtsInfActionInput): Promise<any> {
-        try {
-            // const { bnoinfo } = arg;
-
             const code = config.actor_code;
             const actor_code = config.actor_code;
-            // const privtKey = config.led_priv;
             const accountId = config.actor_code;
 
             if(arg.transport!='01' && arg.transport!='02' && arg.transport!='03'
@@ -532,149 +515,157 @@ export class BlockchainService implements IBlockchainService {
                 (config.led_priv as string).split(" ")
             );
 
-            const bid = uuidv4();
-            const regidt = this.getCurrentDateTime();
+            const maxRetries = 3; // Number of retries
+            let attempt = 0;
+            
+            while (attempt < maxRetries) {
+                try {
 
-            // eos.didapi.signatureProvider = new JsSignatureProvider([privtKey]);
-            // console.log("eos.api.transact start : ", privtKey);
-            const trx = await this.api.transact(
-                {
-                    actions: [
+                    const trx = await this.api.transact(
                         {
-                            account: code,
-                            name: "regbnoinfo",
-                            authorization: [
+                            actions: [
                                 {
-                                    actor: actor_code,
-                                    permission: "active",
+                                    account: code,
+                                    name: "regbnoinfo",
+                                    authorization: [
+                                        {
+                                            actor: actor_code,
+                                            permission: "active",
+                                        },
+                                    ],
+                                    data: {
+                                        accountId,
+                                        did: arg.did,
+                                        bno: bs58.encode(Buffer.from(uuidv4())),
+                                        transport: arg.transport,
+                                        stime: arg.stime,
+                                        etime: arg.etime,
+                                        distance: arg.distance
+                                    },
                                 },
                             ],
-                            data: {
-                                accountId,
-                                did: arg.did,
-                                bno: bs58.encode(Buffer.from(uuidv4())),
-                                transport: arg.transport,
-                                stime: arg.stime,
-                                etime: arg.etime,
-                                distance: arg.distance
-                            },
                         },
-                    ],
-                },
-                {
-                    blocksBehind: 3,
-                    expireSeconds: 30,
-                }
-            );
+                        {
+                            blocksBehind: 3,
+                            expireSeconds: 30,
+                        }
+                    );
 
-            const sresult = trx['processed'].action_traces[0].console;
-            console.log("registerWrbtsInfFunc regbnoinfo trx : ", sresult);
+                    const sresult = trx['processed'].action_traces[0].console;
+                    console.log("registerWrbtsInf regbnoinfo trx : ", sresult);
 
-            const result = {
-                "message": sresult,
-                "context": "BlockchainService/registerWrbtsInfFunc"
+                    const result = {
+                        "message": sresult,
+                        "context": "BlockchainService/registerWrbtsInf"
+                    }
+                    // const result = {
+                    //     trxId : this.convertToUpperCase(trx['processed'].id), //.action_traces[0].console;
+                    //     bid : bid //.action_traces[0].console;
+                    // }
+                    return result;
+                } catch (error) {
+                    attempt++;
+                    console.log(`registerWrbtsInf error (attempt ${attempt} of ${maxRetries}) : `, error);
+    
+                    if (attempt >= maxRetries) {
+                        throw error; // Re-throw the error if max retries are reached
+                    }
+    
+                    // Optionally, add a delay between retries
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                } 
             }
-            // const result = {
-            //     trxId : this.convertToUpperCase(trx['processed'].id), //.action_traces[0].console;
-            //     bid : bid //.action_traces[0].console;
-            // }
-            return result;
         } catch (error) {
-            throw new Error(error);
+            const eresult = {
+                "message": error.message,
+                "context": "BlockchainService/registerWrbtsInf"
+            }
+            return eresult;
         }
     }
     
-    async selectWrbtsInf(bnoinfo: ISelectWrbtsInfActionInput): Promise<any> {
-        try {
-            return await this.selectWrbtsInfFunc(bnoinfo);
-        } catch(error) {
-            console.log("SaaS selectWrbtsInf error : ", error);
-            throw new Error(error);
-        }
-    }
-    
-    async selectWrbtsInfFunc(arg: ISelectWrbtsInfActionInput): Promise<any> {
+   
+    async selectWrbtsInf(arg: ISelectWrbtsInfActionInput): Promise<any> {
         try {
             const code = config.actor_code;
             const actor_code = config.actor_code;
-            // const privtKey = config.led_priv;
             const accountId = config.actor_code;
-            // const eos = new BlockchainService();
-            // eos.didapi.signatureProvider = new JsSignatureProvider([privtKey]);
             this.api.signatureProvider = new JsSignatureProvider(
                 (config.led_priv as string).split(" ")
             );
 
-            console.log("selectWrbtsInfFunc arg :::::: ", arg);
-
-            const trx = await this.api.transact(
-                {
-                    actions: [
+            console.log("selectWrbtsInf arg :::::: ", arg);
+            const maxRetries = 3; // Number of retries
+            let attempt = 0;
+            
+            while (attempt < maxRetries) {
+                try {
+                    const trx = await this.api.transact(
                         {
-                            account: code,
-                            name: "selbnoinfo",
-                            authorization: [
+                            actions: [
                                 {
-                                    actor: actor_code,
-                                    permission: "active",
+                                    account: code,
+                                    name: "selbnoinfo",
+                                    authorization: [
+                                        {
+                                            actor: actor_code,
+                                            permission: "active",
+                                        },
+                                    ],
+                                    data: {
+                                        accountId,
+                                        did: arg.did,
+                                        bno: "",
+                                        transport: arg.transport,
+                                        stime: arg.stime,
+                                        etime: arg.etime,
+                                        distance: arg.distance
+                                    },
                                 },
                             ],
-                            data: {
-                                accountId,
-                                did: arg.did,
-                                bno: "",
-                                transport: arg.transport,
-                                stime: arg.stime,
-                                etime: arg.etime,
-                                distance: arg.distance
-                            },
                         },
-                    ],
-                },
-                {
-                    blocksBehind: 3,
-                    expireSeconds: 30,
-                }
-            );
+                        {
+                            blocksBehind: 3,
+                            expireSeconds: 30,
+                        }
+                    );
 
-            // console.log("selectBnoInfoTrx result trx : ", trx);
-            // console.log("selectBnoInfoTrx result trx['processed'].action_traces : ", trx['processed'].action_traces);
-            let result;
-            try {
-                result = trx['processed'].action_traces[0].console;
-                console.log("selectWrbtsInfFunc result : ", result);
-                const jsonArray = JSON.parse(result);
-                // const output = jsonArray.map(item => {
-                //     const photosArray = item.photos.split(',');
-                //     return {
-                //         ...item,
-                //         photos: photosArray
-                //     };
-                // });
-
-                return jsonArray;
-                
-            } catch(error) {
-                const eresult = {
-                    "message": result,
-                    "context": "BlockchainService/selectWrbtsInfFunc"
-                }
-                return eresult;
+                    let result;
+                    try {
+                        result = trx['processed'].action_traces[0].console;
+                        console.log("selectWrbtsInf result : ", result);
+                        const jsonArray = JSON.parse(result);
+        
+                        return jsonArray;
+                        
+                    } catch(error) {
+                        const eresult = {
+                            "message": result,
+                            "context": "BlockchainService/selectWrbtsInf"
+                        }
+                        return eresult;
+                    }                    
+                } catch (error) {
+                    attempt++;
+                    console.log(`selectWrbtsInf error (attempt ${attempt} of ${maxRetries}) : `, error);
+    
+                    if (attempt >= maxRetries) {
+                        throw error; // Re-throw the error if max retries are reached
+                    }
+    
+                    // Optionally, add a delay between retries
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                }                    
             }
 
-            // const input  = JSON.parse(result);
-            // const photosArray = JSON.parse(result).photos.split(',');
-
-            // const output = {
-            //     ...input,
-            //     photos: photosArray
-            // }
-
         } catch (error) {
-            console.log("selectWrbtsInfFunc error : ", error.message);
+            console.log("selectWrbtsInf error : ", error.message);
             // throw new TransactionExecuteException(error);
-            throw new Error("There is no data you searched for in the table.");
-            // return "FAIL[There is no data you searched for in the table.]";
+            const eresult = {
+                "message": error.message,
+                "context": "BlockchainService/selectWrbtsInf"
+            }
+            return eresult;
         }
     }    
 
