@@ -622,6 +622,7 @@ export class BlockchainService implements IBlockchainService {
                             data: {
                                 accountId,
                                 did: arg.did,
+                                bno: "",
                                 transport: arg.transport,
                                 stime: arg.stime,
                                 etime: arg.etime,
