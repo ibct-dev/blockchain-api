@@ -517,12 +517,12 @@ export class BlockchainService implements IBlockchainService {
             // 서명 생성
             const privateKey = "5oEgECLZ9VCsJedW8Avm65nokqUoUBmNDvaKy6AMmySf";
             const message = JSON.stringify(arg.drivingInfo);
-            const signature = this.signMessage(message, Buffer.from(privateKey));
+            const signature = this.signMessage(message, Buffer.from(privateKey, 'hex'));
             console.log('Signature:', signature.toString('hex'));
 
             const litResolver = new LitResolver(config.resover_endpoint);
             const result = await litResolver.resolve(arg.did);
-            const publicKey = Buffer.from(result.didDocument.verificationMethod[0].publicKeyBase58);
+            const publicKey = Buffer.from(result.didDocument.verificationMethod[0].publicKeyBase58, 'hex');
 
             // console.log("registerWrbtsInf resolver : ", JSON.stringify(result.didDocument.verificationMethod[0].publicKeyBase58));
 
