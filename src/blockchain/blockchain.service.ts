@@ -519,7 +519,7 @@ export class BlockchainService implements IBlockchainService {
             // const message = JSON.stringify(arg.drivingInfo);
             // const signature = this.signMessage(message, bs58.decode(privateKey));
             // console.log('Signature:', signature.toString('hex'));
-            const signature = Buffer.from(arg.signedMsg);
+            const signature = Buffer.from(arg.signedMsg, 'hex');
 
             const litResolver = new LitResolver(config.resover_endpoint);
             const result = await litResolver.resolve(arg.did);
