@@ -515,10 +515,11 @@ export class BlockchainService implements IBlockchainService {
             // 서명할 메시지
             // const message = 'This is a message';
             // 서명 생성
-            const privateKey = "5oEgECLZ9VCsJedW8Avm65nokqUoUBmNDvaKy6AMmySf";
-            const message = JSON.stringify(arg.drivingInfo);
-            const signature = this.signMessage(message, bs58.decode(privateKey));
-            console.log('Signature:', signature.toString('hex'));
+            // const privateKey = "5oEgECLZ9VCsJedW8Avm65nokqUoUBmNDvaKy6AMmySf";
+            // const message = JSON.stringify(arg.drivingInfo);
+            // const signature = this.signMessage(message, bs58.decode(privateKey));
+            // console.log('Signature:', signature.toString('hex'));
+            const signature = Buffer.from(arg.signedMsg);
 
             const litResolver = new LitResolver(config.resover_endpoint);
             const result = await litResolver.resolve(arg.did);
@@ -527,8 +528,18 @@ export class BlockchainService implements IBlockchainService {
             // console.log("registerWrbtsInf resolver : ", JSON.stringify(result.didDocument.verificationMethod[0].publicKeyBase58));
 
             // 서명 검증
+            const message = JSON.stringify(arg.drivingInfo);
             const isValid = this.verifySignature(message, signature, publicKey);
             console.log('Is signature valid?', isValid);
+
+            if(!isValid) {
+                const eresult = {
+                    "message": "Signature message is not correct.",
+                    "context": "BlockchainService/registerWrbtsInf"
+                }
+                return eresult;
+            }
+
             const transType = arg.drivingInfo.transport;
 
             if(transType!='01' && transType!='02' && transType!='03'
