@@ -521,7 +521,7 @@ export class BlockchainService implements IBlockchainService {
             const litResolver = new LitResolver(config.resover_endpoint);
             const result = await litResolver.resolve(arg.did);
 
-            console.log("registerWrbtsInf resolver : ", result);
+            console.log("registerWrbtsInf resolver : ", JSON.stringify(result.didDocument.verificationMethod));
 
             // 서명 검증
             // const isValid = this.verifySignature(arg., arg.signedMsg, publicKey);
