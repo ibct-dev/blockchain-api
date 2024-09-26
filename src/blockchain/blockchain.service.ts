@@ -517,7 +517,7 @@ export class BlockchainService implements IBlockchainService {
             // 서명 생성
             const privateKey = "5oEgECLZ9VCsJedW8Avm65nokqUoUBmNDvaKy6AMmySf";
             const message = JSON.stringify(arg.drivingInfo);
-            const signature = this.signMessage(message, Buffer.from(privateKey, 'hex'));
+            const signature = this.signMessage(message, bs58.decode(privateKey));
             console.log('Signature:', signature.toString('hex'));
 
             const litResolver = new LitResolver(config.resover_endpoint);
