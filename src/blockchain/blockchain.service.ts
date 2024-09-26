@@ -515,11 +515,14 @@ export class BlockchainService implements IBlockchainService {
             // 서명할 메시지
             // const message = 'This is a message';
             // 서명 생성
-            // const privateKey = "5oEgECLZ9VCsJedW8Avm65nokqUoUBmNDvaKy6AMmySf";
+            const privateKey = "5oEgECLZ9VCsJedW8Avm65nokqUoUBmNDvaKy6AMmySf";
             const drvmessage = JSON.stringify(arg.drivingInfo);
             console.log("drvmessage : ", drvmessage);
-            // const signature = this.signMessage(message, bs58.decode(privateKey));
-            // console.log('Signature:', signature.toString('hex'));
+            const signature0 = this.signMessage(drvmessage, bs58.decode(privateKey));
+            console.log('Signature:', signature0.toString('hex'));
+
+
+
             const signature = Buffer.from(arg.signedMsg, 'hex');
 
             const litResolver = new LitResolver(config.resover_endpoint);
