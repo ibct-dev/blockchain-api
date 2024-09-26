@@ -38,6 +38,7 @@ async function bootstrap() {
         // added security
         app.use(helmet()); // 4 버전의 경우 무한 로딩 이슈가 발생함, 3 버전으로 사용
         app.enableCors();
+        app.set('trust proxy', 1);
         // rateLimit
         app.use(
             rateLimit({
