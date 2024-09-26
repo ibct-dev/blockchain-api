@@ -35,13 +35,17 @@ export interface IDeleteBnoInfoActionInput {
     bno: string; 
 }
 
-export interface IRegisterWrbtsInfActionInput {
-    did: string;
-    signedMsg: string;
+export interface drivingInformation {
     transport: string;
     stime: string;
     etime: string;
-    distance: string;
+    distance: string;    
+}
+
+export interface IRegisterWrbtsInfActionInput {
+    did: string;
+    signedMsg: string;
+    drivingInfo: drivingInformation;
 }
 
 export interface ISelectWrbtsInfActionInput {

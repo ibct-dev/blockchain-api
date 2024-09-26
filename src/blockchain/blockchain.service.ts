@@ -515,20 +515,24 @@ export class BlockchainService implements IBlockchainService {
             // 서명할 메시지
             // const message = 'This is a message';
             // 서명 생성
-            // const signature = signMessage(message, privateKey);
-            // console.log('Signature:', signature.toString('hex'));
+            const privateKey = "5oEgECLZ9VCsJedW8Avm65nokqUoUBmNDvaKy6AMmySf";
+            const message = JSON.stringify(arg.drivingInfo);
+            const signature = this.signMessage(message, Buffer.from(privateKey));
+            console.log('Signature:', signature.toString('hex'));
 
             const litResolver = new LitResolver(config.resover_endpoint);
             const result = await litResolver.resolve(arg.did);
+            const publicKey = Buffer.from(result.didDocument.verificationMethod[0].publicKeyBase58);
 
-            console.log("registerWrbtsInf resolver : ", JSON.stringify(result.didDocument.verificationMethod));
+            // console.log("registerWrbtsInf resolver : ", JSON.stringify(result.didDocument.verificationMethod[0].publicKeyBase58));
 
             // 서명 검증
-            // const isValid = this.verifySignature(arg., arg.signedMsg, publicKey);
-            // console.log('Is signature valid?', isValid);
+            const isValid = this.verifySignature(message, signature, publicKey);
+            console.log('Is signature valid?', isValid);
+            const transType = arg.drivingInfo.transport;
 
-            if(arg.transport!='01' && arg.transport!='02' && arg.transport!='03'
-                && arg.transport!='04' && arg.transport!='05' && arg.transport!='06'
+            if(transType!='01' && transType!='02' && transType!='03'
+                && transType!='04' && transType!='05' && transType!='06'
             ) {
                 throw new Error("This is a transport code error. (01. WALK 02. BIKE 03. CAR 04. BUS 05. SUBWAY 06. ETC)");
             }
@@ -559,10 +563,10 @@ export class BlockchainService implements IBlockchainService {
                                         accountId,
                                         did: arg.did,
                                         bno: bs58.encode(Buffer.from(uuidv4())),
-                                        transport: arg.transport,
-                                        stime: arg.stime,
-                                        etime: arg.etime,
-                                        distance: arg.distance
+                                        transport: arg.drivingInfo.transport,
+                                        stime: arg.drivingInfo.stime,
+                                        etime: arg.drivingInfo.etime,
+                                        distance: arg.drivingInfo.distance
                                     },
                                 },
                             ],
