@@ -719,6 +719,7 @@ export class BlockchainService implements IBlockchainService {
     signMessage(message: string, privateKey: Buffer): Buffer {
         const msgHash = this.hashMessage(message); // 메시지 해시
         console.log("signMessage msgHash : ", Buffer.from(msgHash));
+        console.log("signMessage privateKey : ", Buffer.from(privateKey));
         const signature = secp256k1.ecdsaSign(msgHash, privateKey).signature; // 서명 생성
         return Buffer.from(signature);
     }
