@@ -349,6 +349,14 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@decentralized-identity/did-common-typescript@^0.1.19":
+  version "0.1.19"
+  resolved "https://registry.npmjs.org/@decentralized-identity/did-common-typescript/-/did-common-typescript-0.1.19.tgz#91c6dd59311e849cbc91fcff81b65c1a966163b6"
+  integrity sha512-GB3ZLXiyBmzbdur6dwqlf26+LSqeza2i5rE3sCu0vcbZ1R5+Av/vQyTZvh3zD/s4/8bdsnH942IvGu+sQqacqw==
+  dependencies:
+    base64url "^3.0.1"
+    clone "^2.1.2"
+
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.npmjs.org/@isaacs/cliui/-/cliui-8.0.2.tgz#b37667b7bc181c168782259bab42474fbf52b550"
@@ -2034,6 +2042,11 @@ clone@^1.0.2:
   version "1.0.4"
   resolved "https://registry.npmjs.org/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==
+
+clone@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.npmjs.org/clone/-/clone-2.1.2.tgz#1b7f4b9f591f1e8f83670401600345a02887435f"
+  integrity sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==
 
 cls-rtracer@^2.4.0:
   version "2.6.3"

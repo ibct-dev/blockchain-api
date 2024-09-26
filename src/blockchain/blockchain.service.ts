@@ -2,12 +2,15 @@
 import { v4 as uuidv4 } from 'uuid';
 import bs58 from "bs58";
 import * as crypto from 'crypto';
+import * as secp256k1 from 'secp256k1'; // secp256k1 라이브러리 설치 필요
+import { createHash } from 'crypto';
 import { getTime } from "@src/shared/services/time";
 import { Inject, Injectable } from "@nestjs/common";
 import { Api, JsonRpc } from "eosjs";
 import { config } from "@config";
 import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
 import { TextDecoder, TextEncoder } from "text-encoding";
+import { LitResolver } from "./litResolver.service";
 
 import {
     RpcCallException,
@@ -501,9 +504,28 @@ export class BlockchainService implements IBlockchainService {
 
     async registerWrbtsInf (arg: IRegisterWrbtsInfActionInput): Promise<any> {
         try {
-            const code = config.actor_code;
-            const actor_code = config.actor_code;
-            const accountId = config.actor_code;
+            const code = config.wactor_code;
+            const actor_code = config.wactor_code;
+            const accountId = config.wactor_code;
+
+            // 비밀키와 공개키 생성 (여기서는 임시 키 생성)
+            // const privateKey = Buffer.from('<your-private-key-hex>', 'hex'); // 32바이트 개인키
+            // const publicKey = secp256k1.publicKeyCreate(privateKey); // 개인키로 공개키 생성
+
+            // 서명할 메시지
+            // const message = 'This is a message';
+            // 서명 생성
+            // const signature = signMessage(message, privateKey);
+            // console.log('Signature:', signature.toString('hex'));
+
+            const litResolver = new LitResolver(config.resover_endpoint);
+            const result = await litResolver.resolve(arg.did);
+
+            console.log("registerWrbtsInf resolver : ", result);
+
+            // 서명 검증
+            // const isValid = this.verifySignature(arg., arg.signedMsg, publicKey);
+            // console.log('Is signature valid?', isValid);
 
             if(arg.transport!='01' && arg.transport!='02' && arg.transport!='03'
                 && arg.transport!='04' && arg.transport!='05' && arg.transport!='06'
@@ -515,7 +537,7 @@ export class BlockchainService implements IBlockchainService {
                 (config.led_priv as string).split(" ")
             );
 
-            const maxRetries = 3; // Number of retries
+            const maxRetries = 5; // Number of retries
             let attempt = 0;
             
             while (attempt < maxRetries) {
@@ -587,9 +609,9 @@ export class BlockchainService implements IBlockchainService {
    
     async selectWrbtsInf(arg: ISelectWrbtsInfActionInput): Promise<any> {
         try {
-            const code = config.actor_code;
-            const actor_code = config.actor_code;
-            const accountId = config.actor_code;
+            const code = config.wactor_code;
+            const actor_code = config.wactor_code;
+            const accountId = config.wactor_code;
             this.api.signatureProvider = new JsSignatureProvider(
                 (config.led_priv as string).split(" ")
             );
@@ -667,6 +689,24 @@ export class BlockchainService implements IBlockchainService {
             }
             return eresult;
         }
+    }    
+
+    // 메시지를 해싱하는 함수
+    hashMessage(message: string): Buffer {
+        return createHash('sha256').update(message).digest();
+    }
+
+    // ECDSA 서명 생성 (secp256k1)
+    signMessage(message: string, privateKey: Buffer): Buffer {
+        const msgHash = this.hashMessage(message); // 메시지 해시
+        const signature = secp256k1.ecdsaSign(msgHash, privateKey).signature; // 서명 생성
+        return Buffer.from(signature);
+    }
+
+    // ECDSA 서명 검증 (secp256k1)
+    verifySignature(message: string, signature: Buffer, publicKey: Buffer): boolean {
+        const msgHash = this.hashMessage(message); // 메시지 해시
+        return secp256k1.ecdsaVerify(signature, msgHash, publicKey); // 서명 검증
     }    
 
 }

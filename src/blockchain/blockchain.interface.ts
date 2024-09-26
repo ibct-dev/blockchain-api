@@ -37,6 +37,7 @@ export interface IDeleteBnoInfoActionInput {
 
 export interface IRegisterWrbtsInfActionInput {
     did: string;
+    signedMsg: string;
     transport: string;
     stime: string;
     etime: string;

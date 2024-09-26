@@ -23,10 +23,12 @@ export const config = {
     led_code: process.env.LED_CODE || "",
     led_lit_code: process.env.LED_LIT_CODE || "",
     actor_code: process.env.ACTOR_CODE || "",
+    wactor_code: process.env.WACTOR_CODE || "",
 
     //Led key
     led_priv: process.env.LED_PRIVATE_KEYS || "",
     led_did_priv: process.env.LED_DID_PRIVATE_KEYS || "",
+    resover_endpoint: process.env.RESOLVER_ENDPOINT || "",
 };
 
 
