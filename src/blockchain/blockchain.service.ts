@@ -522,7 +522,7 @@ export class BlockchainService implements IBlockchainService {
 
             const litResolver = new LitResolver(config.resover_endpoint);
             const result = await litResolver.resolve(arg.did);
-            const publicKey = Buffer.from(result.didDocument.verificationMethod[0].publicKeyBase58, 'hex');
+            const publicKey = bs58.decode(result.didDocument.verificationMethod[0].publicKeyBase58);
 
             // console.log("registerWrbtsInf resolver : ", JSON.stringify(result.didDocument.verificationMethod[0].publicKeyBase58));
 
