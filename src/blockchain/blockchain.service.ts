@@ -592,7 +592,7 @@ export class BlockchainService implements IBlockchainService {
                     console.log("registerWrbtsInf regbnoinfo trx : ", sresult);
 
                     const result = {
-                        "message": sresult,
+                        "message": [sresult],
                         "context": "BlockchainService/registerWrbtsInf"
                     }
                     // const result = {
