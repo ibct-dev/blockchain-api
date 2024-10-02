@@ -498,10 +498,7 @@ export class BlockchainService implements IBlockchainService {
         return result;
     }
 
-
-
     // 2024/09/10 라이트브러더스 탄소중립 포인트
-
     async registerWrbtsInf (arg: IRegisterWrbtsInfActionInput): Promise<any> {
         try {
             const code = config.wactor_code;
@@ -515,13 +512,12 @@ export class BlockchainService implements IBlockchainService {
             // 서명할 메시지
             // const message = 'This is a message';
             // 서명 생성
-            const privateKey = "5oEgECLZ9VCsJedW8Avm65nokqUoUBmNDvaKy6AMmySf";
-            const drvmessage = JSON.stringify(arg.drivingInfo);
-            console.log("drvmessage : ", drvmessage);
-            const signature0 = this.signMessage(drvmessage, bs58.decode(privateKey));
-            console.log('Signature:', signature0.toString('hex'));
-
-
+            // const privateKey = "5oEgECLZ9VCsJedW8Avm65nokqUoUBmNDvaKy6AMmySf";
+            // const drvmessage = JSON.stringify(arg.drivingInfo);
+            // console.log("drvmessage : ", drvmessage);
+            // const signature0 = this.signMessage(drvmessage, bs58.decode(privateKey));
+            // //a7644188e1a4c8998065c66796864412e60d34ab9da511c9152f36fc1c792d2033eb5ccbc7e551437f56cef6369c6e81c3760996a7f61c5b95eb8ae1312a520c
+            // console.log('Signature:', signature0.toString('hex'));
 
             const signature = Buffer.from(arg.signedMsg, 'hex');
 
